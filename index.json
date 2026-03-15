@@ -1,10 +1,10 @@
 {
     "name": "ADP Ops",
-    "max_version": "1.3.16",
+    "max_version": "1.4.16",
     "description": "ADP OPS 客户端升级服务",
     "darwin": [],
     "win32": {
-        "max_version": "1.3.16",
+        "max_version": "1.4.16",
         "package": [
             {
                 "download_url": "https://originhubai.github.io/adp-ops-deamon-upgrade/msi/adp-ops-client_1.1.15.msi",
@@ -23,9 +23,15 @@
                 "release_date": 1773592907.0290911,
                 "file_size": 5640192,
                 "version": "1.3.16"
+            },
+            {
+                "download_url": "https://originhubai.github.io/adp-ops-deamon-upgrade/msi/adp-ops-client_1.4.16.msi",
+                "release_date": 1773594296.1820445,
+                "file_size": 5644288,
+                "version": "1.4.16"
             }
         ]
     },
     "author": "adp.originhub.tech",
-    "updated_time": "2026-03-16 00:57:37"
+    "updated_time": "2026-03-16 01:05:02"
 }
