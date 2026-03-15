@@ -1,0 +1,495 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ADP OPS 客户端 - 升级中心</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Microsoft YaHei", sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+            color: #333;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
+            padding: 40px 20px;
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+        }
+
+        .app-icon {
+            width: 100px;
+            height: 100px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 20px;
+            margin: 0 auto 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 40px;
+            color: white;
+        }
+
+        h1 {
+            font-size: 3rem;
+            color: #333;
+            margin-bottom: 10px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .subtitle {
+            font-size: 1.2rem;
+            color: #666;
+            margin-bottom: 20px;
+        }
+
+        .version-badge {
+            display: inline-block;
+            background: linear-gradient(135deg, #4CAF50, #45a049);
+            color: white;
+            padding: 6px 20px;
+            border-radius: 20px;
+            font-size: 1.1rem;
+            font-weight: bold;
+            margin-top: 10px;
+        }
+
+        .content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+            margin-bottom: 40px;
+        }
+
+        @media (max-width: 768px) {
+            .content {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .info-card, .download-card {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+        }
+
+        .card-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 25px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid #f0f0f0;
+        }
+
+        .card-icon {
+            width: 50px;
+            height: 50px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 15px;
+            font-size: 24px;
+            color: white;
+        }
+
+        .card-title {
+            font-size: 1.5rem;
+            color: #333;
+        }
+
+        .info-grid {
+            display: grid;
+            gap: 15px;
+        }
+
+        .info-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 12px 0;
+            border-bottom: 1px solid #f0f0f0;
+        }
+
+        .info-label {
+            color: #666;
+            font-weight: 500;
+        }
+
+        .info-value {
+            color: #333;
+            font-weight: 500;
+        }
+
+        .package-list {
+            display: grid;
+            gap: 20px;
+        }
+
+        .package-item {
+            background: white;
+            border-radius: 15px;
+            padding: 25px;
+            border: 2px solid #f0f0f0;
+            transition: all 0.3s ease;
+        }
+
+        .package-item:hover {
+            border-color: #667eea;
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(102, 126, 234, 0.2);
+        }
+
+        .package-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        .package-version {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 8px 20px;
+            border-radius: 20px;
+            font-size: 1.1rem;
+            font-weight: bold;
+        }
+
+        .package-date {
+            color: #666;
+            font-size: 0.9rem;
+        }
+
+        .download-btn {
+            display: inline-block;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 12px 30px;
+            border-radius: 10px;
+            text-decoration: none;
+            font-weight: bold;
+            font-size: 1.1rem;
+            text-align: center;
+            transition: all 0.3s ease;
+            border: none;
+            cursor: pointer;
+            width: 100%;
+            margin-top: 15px;
+        }
+
+        .download-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(102, 126, 234, 0.3);
+        }
+
+        .footer {
+            text-align: center;
+            color: rgba(255, 255, 255, 0.8);
+            padding: 20px;
+            font-size: 0.9rem;
+        }
+
+        .author-info {
+            background: rgba(255, 255, 255, 0.95);
+            padding: 20px;
+            border-radius: 15px;
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        .loading {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 200px;
+            font-size: 1.2rem;
+            color: #666;
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 40px 20px;
+            color: #666;
+        }
+
+        .empty-icon {
+            font-size: 60px;
+            margin-bottom: 20px;
+            opacity: 0.5;
+        }
+    </style>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+<div class="container">
+    <header class="header">
+        <div class="app-icon">
+            <i class="fas fa-desktop"></i>
+        </div>
+        <h1>ADP OPS 客户端</h1>
+        <p class="subtitle">专业的运维管理工具，提升您的工作效率</p>
+        <div class="version-badge" id="maxVersion">最新版本：加载中...</div>
+    </header>
+
+    <div class="content">
+        <div class="info-card">
+            <div class="card-header">
+                <div class="card-icon">
+                    <i class="fas fa-info-circle"></i>
+                </div>
+                <h2 class="card-title">应用信息</h2>
+            </div>
+            <div class="info-grid" id="appInfo">
+                <div class="loading">
+                    <i class="fas fa-spinner fa-spin"></i> 正在加载应用信息...
+                </div>
+            </div>
+        </div>
+
+        <div class="download-card">
+            <div class="card-header">
+                <div class="card-icon">
+                    <i class="fas fa-download"></i>
+                </div>
+                <h2 class="card-title">版本下载</h2>
+            </div>
+            <div class="package-list" id="packageList">
+                <div class="loading">
+                    <i class="fas fa-spinner fa-spin"></i> 正在加载版本列表...
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="author-info">
+        <p><i class="fas fa-user"></i> 官方提供：<span id="authorName">加载中...</span></p>
+        <p><i class="fas fa-clock"></i> 最后更新：<span id="updatedTime">加载中...</span></p>
+    </div>
+
+    <footer class="footer">
+        <p>© 2026 ADP OPS 客户端 | 专业运维，值得信赖</p>
+    </footer>
+</div>
+
+<script>
+    // 应用数据
+    const appData = fetch(`/index.json?t=${Date()}`);
+
+    // 格式化时间戳
+    function formatTimestamp(timestamp) {
+        const date = new Date(timestamp * 1000);
+        return date.toLocaleString('zh-CN', {
+            year: 'numeric',
+            month: '2-digit',
+            day: '2-digit',
+            hour: '2-digit',
+            minute: '2-digit',
+            second: '2-digit'
+        });
+    }
+
+    // 渲染应用信息
+    function renderAppInfo() {
+        document.getElementById('maxVersion').textContent = `最新版本：v${appData.max_version}`;
+        document.getElementById('authorName').textContent = appData.author;
+        document.getElementById('updatedTime').textContent = appData.updated_time;
+
+        const appInfoContainer = document.getElementById('appInfo');
+
+        const infoItems = [
+            { label: '应用名称', value: appData.name, icon: 'fas fa-desktop' },
+            { label: '当前版本', value: appData.max_version, icon: 'fas fa-code-branch' },
+            { label: '应用描述', value: appData.description, icon: 'fas fa-file-alt' },
+            { label: '支持平台', value: 'Windows', icon: 'fab fa-windows' },
+            { label: '总版本数', value: appData.win32.package.length, icon: 'fas fa-layer-group' }
+        ];
+
+        appInfoContainer.innerHTML = infoItems.map(item => `
+                <div class="info-item">
+                    <span class="info-label">
+                        <i class="${item.icon}"></i> ${item.label}
+                    </span>
+                    <span class="info-value">${item.value}</span>
+                </div>
+            `).join('');
+    }
+
+    // 渲染包列表
+    function renderPackageList() {
+        const packageListContainer = document.getElementById('packageList');
+        const packages = appData.win32.package;
+
+        if (packages.length === 0) {
+            packageListContainer.innerHTML = `
+                    <div class="empty-state">
+                        <div class="empty-icon">
+                            <i class="fas fa-box-open"></i>
+                        </div>
+                        <p>暂无可用版本</p>
+                    </div>
+                `;
+            return;
+        }
+
+        // 按版本号排序（新版本在前）
+        const sortedPackages = [...packages].sort((a, b) => {
+            return compareVersions(b.version, a.version);
+        });
+
+        packageListContainer.innerHTML = sortedPackages.map(pkg => `
+                <div class="package-item">
+                    <div class="package-header">
+                        <div class="package-version">v${pkg.version}</div>
+                        <div class="package-date">${formatTimestamp(pkg.package_time)}</div>
+                    </div>
+                    <div class="package-info">
+                        <p>版本 ${pkg.version} 安装包</p>
+                        <button class="download-btn" onclick="downloadPackage('${pkg.download_url}', '${pkg.version}')">
+                            <i class="fas fa-download"></i> 下载安装包
+                        </button>
+                    </div>
+                </div>
+            `).join('');
+    }
+
+    // 版本比较函数
+    function compareVersions(v1, v2) {
+        const parts1 = v1.split('.').map(Number);
+        const parts2 = v2.split('.').map(Number);
+
+        for (let i = 0; i < Math.max(parts1.length, parts2.length); i++) {
+            const part1 = parts1[i] || 0;
+            const part2 = parts2[i] || 0;
+
+            if (part1 > part2) return 1;
+            if (part1 < part2) return -1;
+        }
+        return 0;
+    }
+
+    // 下载包函数
+    function downloadPackage(url, version) {
+        if (confirm(`是否下载版本 v${version} 的安装包？`)) {
+            // 创建临时链接
+            const link = document.createElement('a');
+            link.href = url;
+            link.download = `adp-ops-client_${version}.msi`;
+            link.target = '_blank';
+
+            // 添加到文档并点击
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+
+            // 显示下载提示
+            showNotification(`开始下载 v${version}`, 'success');
+        }
+    }
+
+    // 显示通知
+    function showNotification(message, type = 'info') {
+        const notification = document.createElement('div');
+        notification.style.cssText = `
+                position: fixed;
+                top: 20px;
+                right: 20px;
+                padding: 15px 25px;
+                background: ${type === 'success' ? '#4CAF50' : '#2196F3'};
+                color: white;
+                border-radius: 10px;
+                box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+                z-index: 1000;
+                animation: slideIn 0.3s ease;
+            `;
+
+        notification.innerHTML = `
+                <i class="fas fa-${type === 'success' ? 'check-circle' : 'info-circle'}"></i>
+                ${message}
+            `;
+
+        document.body.appendChild(notification);
+
+        setTimeout(() => {
+            notification.style.animation = 'slideOut 0.3s ease';
+            setTimeout(() => {
+                document.body.removeChild(notification);
+            }, 300);
+        }, 3000);
+    }
+
+    // 添加CSS动画
+    const style = document.createElement('style');
+    style.textContent = `
+            @keyframes slideIn {
+                from { transform: translateX(100%); opacity: 0; }
+                to { transform: translateX(0); opacity: 1; }
+            }
+            @keyframes slideOut {
+                from { transform: translateX(0); opacity: 1; }
+                to { transform: translateX(100%); opacity: 0; }
+            }
+        `;
+    document.head.appendChild(style);
+
+    // 初始化页面
+    document.addEventListener('DOMContentLoaded', () => {
+        renderAppInfo();
+        renderPackageList();
+
+        // 模拟API调用延迟
+        setTimeout(() => {
+            document.querySelectorAll('.loading').forEach(el => {
+                el.style.display = 'none';
+            });
+        }, 1000);
+    });
+
+    // 添加页面交互效果
+    document.addEventListener('DOMContentLoaded', () => {
+        // 添加滚动效果
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                }
+            });
+        }, observerOptions);
+
+        // 观察所有卡片
+        document.querySelectorAll('.info-card, .download-card, .header, .author-info').forEach(card => {
+            card.style.opacity = '0';
+            card.style.transform = 'translateY(20px)';
+            card.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+            observer.observe(card);
+        });
+    });
+</script>
+</body>
+</html>
