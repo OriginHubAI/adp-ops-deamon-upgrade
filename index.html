@@ -294,7 +294,7 @@
 
 <script>
     // 应用数据
-    const appData = await fetch(`./index.json?t=${new Date().getTime()}`);
+    window.appData = {};
 
     // 格式化时间戳
     function formatTimestamp(timestamp) {
@@ -453,7 +453,8 @@
     document.head.appendChild(style);
 
     // 初始化页面
-    document.addEventListener('DOMContentLoaded', () => {
+    document.addEventListener('DOMContentLoaded', async () => {
+        window.appData = await fetch(`./index.json?t=${new Date().getTime()}`)
         renderAppInfo();
         renderPackageList();
 
