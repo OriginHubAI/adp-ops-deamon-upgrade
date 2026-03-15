@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ADP OPS 客户端 - 升级中心</title>
+    <title>ADP OPS 客户端 - 多平台升级中心</title>
     <style>
         * {
             margin: 0;
@@ -20,7 +20,7 @@
         }
 
         .container {
-            max-width: 1200px;
+            max-width: 1400px;
             margin: 0 auto;
         }
 
@@ -71,6 +71,48 @@
             font-size: 1.1rem;
             font-weight: bold;
             margin-top: 10px;
+        }
+
+        .platform-selector {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin: 20px 0 30px;
+        }
+
+        .platform-tab {
+            background: white;
+            border: 2px solid #e0e0e0;
+            padding: 10px 25px;
+            border-radius: 10px;
+            cursor: pointer;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .platform-tab:hover {
+            border-color: #667eea;
+            transform: translateY(-2px);
+        }
+
+        .platform-tab.active {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border-color: #667eea;
+        }
+
+        .platform-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            background: #f0f0f0;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            margin-left: 10px;
         }
 
         .content {
@@ -134,6 +176,9 @@
         .info-label {
             color: #666;
             font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 8px;
         }
 
         .info-value {
@@ -203,6 +248,14 @@
             box-shadow: 0 10px 20px rgba(102, 126, 234, 0.3);
         }
 
+        .download-btn.mac {
+            background: linear-gradient(135deg, #007AFF, #0056CC);
+        }
+
+        .download-btn.windows {
+            background: linear-gradient(135deg, #00B4FF, #0078D7);
+        }
+
         .footer {
             text-align: center;
             color: rgba(255, 255, 255, 0.8);
@@ -238,6 +291,25 @@
             margin-bottom: 20px;
             opacity: 0.5;
         }
+
+        .package-info {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .package-size {
+            color: #666;
+            font-size: 0.9rem;
+        }
+
+        .platform-icon {
+            width: 20px;
+            height: 20px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+        }
     </style>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 </head>
@@ -248,8 +320,23 @@
             <i class="fas fa-desktop"></i>
         </div>
         <h1>ADP OPS 客户端</h1>
-        <p class="subtitle">专业的运维管理工具，提升您的工作效率</p>
+        <p class="subtitle">专业的跨平台运维管理工具，提升您的工作效率</p>
         <div class="version-badge" id="maxVersion">最新版本：加载中...</div>
+
+        <div class="platform-selector" id="platformSelector">
+            <div class="platform-tab active" data-platform="all">
+                <i class="fas fa-globe"></i> 全部平台
+                <span class="platform-badge" id="allCount">0</span>
+            </div>
+            <div class="platform-tab" data-platform="win32">
+                <i class="fab fa-windows"></i> Windows
+                <span class="platform-badge" id="win32Count">0</span>
+            </div>
+            <div class="platform-tab" data-platform="darwin">
+                <i class="fab fa-apple"></i> macOS
+                <span class="platform-badge" id="darwinCount">0</span>
+            </div>
+        </div>
     </header>
 
     <div class="content">
@@ -288,13 +375,14 @@
     </div>
 
     <footer class="footer">
-        <p>© 2026 ADP OPS 客户端 | 专业运维，值得信赖</p>
+        <p>© 2026 ADP OPS 客户端 | 跨平台运维，专业可靠</p>
     </footer>
 </div>
 
 <script>
     // 应用数据
     window.appData = {};
+    let currentPlatform = 'all'; // 当前选中的平台
 
     // 格式化时间戳
     function formatTimestamp(timestamp) {
@@ -309,20 +397,94 @@
         });
     }
 
+    // 获取文件大小友好的显示
+    function formatFileSize(bytes) {
+        if (bytes === 0) return '0 Bytes';
+        const k = 1024;
+        const sizes = ['Bytes', 'KB', 'MB', 'GB'];
+        const i = Math.floor(Math.log(bytes) / Math.log(k));
+        return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
+    }
+
+    // 获取平台显示名称
+    function getPlatformName(platform) {
+        switch(platform) {
+            case 'win32': return 'Windows';
+            case 'darwin': return 'macOS';
+            default: return platform;
+        }
+    }
+
+    // 获取平台图标
+    function getPlatformIcon(platform) {
+        switch(platform) {
+            case 'win32': return '<i class="fab fa-windows"></i>';
+            case 'darwin': return '<i class="fab fa-apple"></i>';
+            default: return '<i class="fas fa-question-circle"></i>';
+        }
+    }
+
+    // 获取平台按钮样式
+    function getPlatformButtonClass(platform) {
+        switch(platform) {
+            case 'win32': return 'windows';
+            case 'darwin': return 'mac';
+            default: return '';
+        }
+    }
+
+    // 获取包的文件名
+    function getPackageFileName(pkg) {
+        const extension = pkg.platform === 'win32' ? '.msi' : '.dmg';
+        return `adp-ops-client_${pkg.version}_${pkg.platform}${extension}`;
+    }
+
+    // 获取最新版本
+    function getMaxVersion() {
+        const versions = [];
+
+        // 检查所有平台的版本
+        if (appData.win32 && appData.win32.package && appData.win32.package.length > 0) {
+            const winVersions = appData.win32.package.map(pkg => pkg.version);
+            versions.push(...winVersions);
+        }
+
+        if (appData.darwin && appData.darwin.package && appData.darwin.package.length > 0) {
+            const macVersions = appData.darwin.package.map(pkg => pkg.version);
+            versions.push(...macVersions);
+        }
+
+        if (versions.length === 0) return '0.0.0';
+
+        // 找到最大版本
+        return versions.sort((a, b) => compareVersions(b, a))[0];
+    }
+
     // 渲染应用信息
     function renderAppInfo() {
-        document.getElementById('maxVersion').textContent = `最新版本：v${appData.max_version}`;
-        document.getElementById('authorName').textContent = appData.author;
-        document.getElementById('updatedTime').textContent = appData.updated_time;
+        const maxVersion = getMaxVersion();
+        document.getElementById('maxVersion').textContent = `最新版本：v${maxVersion}`;
+        document.getElementById('authorName').textContent = appData.author || '未知';
+        document.getElementById('updatedTime').textContent = appData.updated_time || '未知';
 
         const appInfoContainer = document.getElementById('appInfo');
 
+        // 计算各个平台的数量
+        const win32Count = appData.win32?.package?.length || 0;
+        const darwinCount = appData.darwin?.package?.length || 0;
+        const totalCount = win32Count + darwinCount;
+
+        // 更新平台标签计数
+        document.getElementById('allCount').textContent = totalCount;
+        document.getElementById('win32Count').textContent = win32Count;
+        document.getElementById('darwinCount').textContent = darwinCount;
+
         const infoItems = [
             { label: '应用名称', value: appData.name, icon: 'fas fa-desktop' },
-            { label: '当前版本', value: appData.max_version, icon: 'fas fa-code-branch' },
+            { label: '最新版本', value: maxVersion, icon: 'fas fa-code-branch' },
             { label: '应用描述', value: appData.description, icon: 'fas fa-file-alt' },
-            { label: '支持平台', value: 'Windows', icon: 'fab fa-windows' },
-            { label: '总版本数', value: appData.win32.package.length, icon: 'fas fa-layer-group' }
+            { label: 'Windows版本', value: `${win32Count} 个`, icon: 'fab fa-windows' },
+            { label: 'macOS版本', value: `${darwinCount} 个`, icon: 'fab fa-apple' }
         ];
 
         appInfoContainer.innerHTML = infoItems.map(item => `
@@ -335,10 +497,29 @@
             `).join('');
     }
 
+    // 获取当前平台的所有包
+    function getPackagesForCurrentPlatform() {
+        const packages = [];
+
+        if (currentPlatform === 'all') {
+            // 合并所有平台的包
+            if (appData.win32 && appData.win32.package) {
+                packages.push(...appData.win32.package.map(pkg => ({...pkg, platform: 'win32'})));
+            }
+            if (appData.darwin && appData.darwin.package) {
+                packages.push(...appData.darwin.package.map(pkg => ({...pkg, platform: 'darwin'})));
+            }
+        } else if (appData[currentPlatform] && appData[currentPlatform].package) {
+            packages.push(...appData[currentPlatform].package.map(pkg => ({...pkg, platform: currentPlatform})));
+        }
+
+        return packages;
+    }
+
     // 渲染包列表
     function renderPackageList() {
         const packageListContainer = document.getElementById('packageList');
-        const packages = appData.win32.package;
+        const packages = getPackagesForCurrentPlatform();
 
         if (packages.length === 0) {
             packageListContainer.innerHTML = `
@@ -347,6 +528,9 @@
                             <i class="fas fa-box-open"></i>
                         </div>
                         <p>暂无可用版本</p>
+                        <p style="margin-top: 10px; font-size: 0.9rem; color: #999;">
+                            当前平台：${getPlatformName(currentPlatform)}
+                        </p>
                     </div>
                 `;
             return;
@@ -361,12 +545,21 @@
                 <div class="package-item">
                     <div class="package-header">
                         <div class="package-version">v${pkg.version}</div>
-                        <div class="package-date">${formatTimestamp(pkg.release_date)}</div>
+                        <div style="display: flex; align-items: center; gap: 10px;">
+                            <span class="platform-badge">
+                                ${getPlatformIcon(pkg.platform)} ${getPlatformName(pkg.platform)}
+                            </span>
+                            <div class="package-date">${formatTimestamp(pkg.release_date)}</div>
+                        </div>
                     </div>
                     <div class="package-info">
-                        <p>版本 ${pkg.version} 安装包</p>
-                        <button class="download-btn" onclick="downloadPackage('${pkg.download_url}', '${pkg.version}')">
-                            <i class="fas fa-download"></i> 下载安装包
+                        <div>
+                            <p style="margin-bottom: 5px;">版本 ${pkg.version}</p>
+                            ${pkg.size ? `<p class="package-size">${formatFileSize(pkg.size)}</p>` : ''}
+                        </div>
+                        <button class="download-btn ${getPlatformButtonClass(pkg.platform)}"
+                                onclick="downloadPackage('${pkg.download_url}', '${pkg.version}', '${pkg.platform}')">
+                            <i class="fas fa-download"></i> 下载${getPlatformName(pkg.platform)}版
                         </button>
                     </div>
                 </div>
@@ -389,12 +582,15 @@
     }
 
     // 下载包函数
-    function downloadPackage(url, version) {
-        if (confirm(`是否下载版本 v${version} 的安装包？`)) {
+    function downloadPackage(url, version, platform) {
+        const platformName = getPlatformName(platform);
+        const fileName = getPackageFileName({ version, platform });
+
+        if (confirm(`是否下载 ${platformName} 版本 v${version} 的安装包？`)) {
             // 创建临时链接
             const link = document.createElement('a');
             link.href = url;
-            link.download = `adp-ops-client_${version}.msi`;
+            link.download = fileName;
             link.target = '_blank';
 
             // 添加到文档并点击
@@ -403,7 +599,7 @@
             document.body.removeChild(link);
 
             // 显示下载提示
-            showNotification(`开始下载 v${version}`, 'success');
+            showNotification(`开始下载 ${platformName} v${version}`, 'success');
         }
     }
 
@@ -438,38 +634,85 @@
         }, 3000);
     }
 
-    // 添加CSS动画
-    const style = document.createElement('style');
-    style.textContent = `
-            @keyframes slideIn {
-                from { transform: translateX(100%); opacity: 0; }
-                to { transform: translateX(0); opacity: 1; }
+    // 切换平台
+    function switchPlatform(platform) {
+        currentPlatform = platform;
+
+        // 更新平台标签状态
+        document.querySelectorAll('.platform-tab').forEach(tab => {
+            if (tab.dataset.platform === platform) {
+                tab.classList.add('active');
+            } else {
+                tab.classList.remove('active');
             }
-            @keyframes slideOut {
-                from { transform: translateX(0); opacity: 1; }
-                to { transform: translateX(100%); opacity: 0; }
-            }
-        `;
-    document.head.appendChild(style);
+        });
+
+        // 重新渲染包列表
+        renderPackageList();
+
+        // 显示通知
+        if (platform === 'all') {
+            showNotification('已显示所有平台版本', 'info');
+        } else {
+            showNotification(`已切换至${getPlatformName(platform)}平台`, 'info');
+        }
+    }
+
+    // 检测用户操作系统
+    function detectUserPlatform() {
+        const userAgent = navigator.userAgent.toLowerCase();
+
+        if (userAgent.includes('mac')) {
+            return 'darwin';
+        } else if (userAgent.includes('win')) {
+            return 'win32';
+        } else {
+            return 'all'; // 未知系统，显示所有
+        }
+    }
 
     // 初始化页面
     document.addEventListener('DOMContentLoaded', async () => {
-        window.appData = await fetch(`./index.json?t=${Date.now()}`)
-            .then(response => {
-                if (!response.ok) {
-                    throw new Error(`HTTP error! status: ${response.status}`);
-                }
-                return response.json();  // 自动解析为 JavaScript 对象
-            })
-            .catch(error => {
-                console.error('获取数据失败:', error);
-                return null;  // 返回默认值
+        try {
+            const response = await fetch(`./index.json?t=${Date.now()}`);
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
+            window.appData = await response.json();
+
+            console.log('加载的应用数据:', window.appData);
+
+            // 渲染应用信息
+            renderAppInfo();
+
+            // 根据用户操作系统自动选择平台
+            const userPlatform = detectUserPlatform();
+            switchPlatform(userPlatform);
+
+            // 添加平台切换事件监听
+            document.querySelectorAll('.platform-tab').forEach(tab => {
+                tab.addEventListener('click', () => {
+                    switchPlatform(tab.dataset.platform);
+                });
             });
 
-// 使用示例
-        console.log(window.appData);
-        renderAppInfo();
-        renderPackageList();
+        } catch (error) {
+            console.error('获取数据失败:', error);
+            showNotification('加载数据失败，请稍后重试', 'error');
+
+            // 显示错误信息
+            document.getElementById('packageList').innerHTML = `
+                <div class="empty-state">
+                    <div class="empty-icon">
+                        <i class="fas fa-exclamation-triangle"></i>
+                    </div>
+                    <p>加载数据失败</p>
+                    <p style="margin-top: 10px; font-size: 0.9rem; color: #999;">
+                        请检查网络连接或联系管理员
+                    </p>
+                </div>
+            `;
+        }
 
         // 模拟API调用延迟
         setTimeout(() => {
@@ -504,6 +747,20 @@
             observer.observe(card);
         });
     });
+
+    // 添加CSS动画
+    const style = document.createElement('style');
+    style.textContent = `
+            @keyframes slideIn {
+                from { transform: translateX(100%); opacity: 0; }
+                to { transform: translateX(0); opacity: 1; }
+            }
+            @keyframes slideOut {
+                from { transform: translateX(0); opacity: 1; }
+                to { transform: translateX(100%); opacity: 0; }
+            }
+        `;
+    document.head.appendChild(style);
 </script>
 </body>
 </html>
