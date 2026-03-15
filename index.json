@@ -7,31 +7,13 @@
         "max_version": "1.4.16",
         "package": [
             {
-                "download_url": "https://originhubai.github.io/adp-ops-deamon-upgrade/msi/adp-ops-client_1.1.15.msi",
-                "release_date": 1773587454.3438022,
-                "file_size": 5619712,
-                "version": "1.1.15"
-            },
-            {
-                "download_url": "https://originhubai.github.io/adp-ops-deamon-upgrade/msi/adp-ops-client_1.2.15.msi",
-                "release_date": 1773589451.9501312,
-                "file_size": 5615616,
-                "version": "1.2.15"
-            },
-            {
-                "download_url": "https://originhubai.github.io/adp-ops-deamon-upgrade/msi/adp-ops-client_1.3.16.msi",
-                "release_date": 1773592907.0290911,
-                "file_size": 5640192,
-                "version": "1.3.16"
-            },
-            {
                 "download_url": "https://originhubai.github.io/adp-ops-deamon-upgrade/msi/adp-ops-client_1.4.16.msi",
-                "release_date": 1773594296.1820445,
-                "file_size": 5644288,
+                "release_date": 1773594836.799451,
+                "file_size": 5640192,
                 "version": "1.4.16"
             }
         ]
     },
     "author": "adp.originhub.tech",
-    "updated_time": "2026-03-16 01:05:02"
+    "updated_time": "2026-03-16 01:14:01"
 }
