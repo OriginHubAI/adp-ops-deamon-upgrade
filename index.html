@@ -294,7 +294,7 @@
 
 <script>
     // 应用数据
-    const appData = fetch(`/index.json?t=${Date()}`);
+    const appData = fetch(`./index.json?t=${new Date().getTime()}`);
 
     // 格式化时间戳
     function formatTimestamp(timestamp) {
