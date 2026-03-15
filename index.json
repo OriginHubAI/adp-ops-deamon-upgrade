@@ -6,15 +6,9 @@
         "max_version": "1.5.16",
         "package": [
             {
-                "download_url": "https://originhubai.github.io/adp-ops-deamon-upgrade/dmg/adp-ops-client_1.4.16.dmg",
-                "release_date": 1773602019.8467934,
-                "file_size": 6073529,
-                "version": "1.4.16"
-            },
-            {
                 "download_url": "https://originhubai.github.io/adp-ops-deamon-upgrade/dmg/adp-ops-client_1.5.16.dmg",
-                "release_date": 1773603659.6220732,
-                "file_size": 6077382,
+                "release_date": 1773604064.6428022,
+                "file_size": 6077389,
                 "version": "1.5.16"
             }
         ]
@@ -31,5 +25,5 @@
         ]
     },
     "author": "adp.originhub.tech",
-    "updated_time": "2026-03-16 03:40:59"
+    "updated_time": "2026-03-16 03:47:44"
 }
