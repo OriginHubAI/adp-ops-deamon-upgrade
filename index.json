@@ -1,9 +1,9 @@
 {
     "name": "ADP Ops",
-    "max_version": "1.8.16",
+    "max_version": "1.9.17",
     "description": "ADP OPS 客户端升级服务",
     "darwin": {
-        "max_version": "1.8.16",
+        "max_version": "1.9.17",
         "package": [
             {
                 "download_url": "https://originhubai.github.io/adp-ops-deamon-upgrade/dmg/adp-ops-client_1.8.16.dmg",
@@ -22,6 +22,12 @@
                 "release_date": 1773604064.6428022,
                 "file_size": 6077389,
                 "version": "1.5.16"
+            },
+            {
+                "download_url": "https://originhubai.github.io/adp-ops-deamon-upgrade/dmg/adp-ops-client_1.9.17.dmg",
+                "release_date": 1773730092.5311708,
+                "file_size": 3565312,
+                "version": "1.9.17"
             },
             {
                 "download_url": "https://originhubai.github.io/adp-ops-deamon-upgrade/dmg/adp-ops-client_1.7.16.dmg",
@@ -43,5 +49,5 @@
         ]
     },
     "author": "adp.originhub.tech",
-    "updated_time": "2026-03-16 16:58:54"
+    "updated_time": "2026-03-17 14:48:12"
 }
