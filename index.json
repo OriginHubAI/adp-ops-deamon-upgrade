@@ -50,13 +50,25 @@
         ]
     },
     "win32": {
-        "max_version": "1.4.16",
+        "max_version": "1.6.18",
         "package": [
             {
                 "download_url": "https://originhubai.github.io/adp-ops-deamon-upgrade/msi/adp-ops-client_1.4.16.msi",
                 "release_date": 1773594836.799451,
                 "file_size": 5640192,
                 "version": "1.4.16"
+            },
+            {
+                "download_url": "https://originhubai.github.io/adp-ops-deamon-upgrade/msi/adp-ops-client_1.5.18.msi",
+                "release_date": 1773840007.734002,
+                "file_size": 5644288,
+                "version": "1.5.18"
+            },
+            {
+                "download_url": "https://originhubai.github.io/adp-ops-deamon-upgrade/msi/adp-ops-client_1.6.18.msi",
+                "release_date": 1773840232.1732311,
+                "file_size": 5644288,
+                "version": "1.6.18"
             }
         ]
     },
