@@ -7,8 +7,8 @@
         "package": [
             {
                 "download_url": "https://originhubai.github.io/adp-ops-deamon-upgrade/dmg/adp-ops-client_2.0.8.dmg",
-                "release_date": 1778234781.0358627,
-                "file_size": 3579273,
+                "release_date": 1778235240.816605,
+                "file_size": 3579280,
                 "version": "2.0.8"
             },
             {
@@ -97,5 +97,5 @@
         ]
     },
     "author": "adp.originhub.tech",
-    "updated_time": "2026-05-08 18:06:21"
+    "updated_time": "2026-05-08 18:14:00"
 }
