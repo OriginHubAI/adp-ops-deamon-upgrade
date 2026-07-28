@@ -1,9 +1,9 @@
 {
     "name": "ADP Ops",
-    "max_version": "2.3.21",
+    "max_version": "2.3.28",
     "description": "ADP OPS 客户端升级服务",
     "darwin": {
-        "max_version": "2.3.21",
+        "max_version": "2.3.28",
         "package": [
             {
                 "download_url": "https://originhubai.github.io/adp-ops-deamon-upgrade/dmg/adp-ops-client_2.0.8.dmg",
@@ -121,5 +121,5 @@
         ]
     },
     "author": "adp.originhub.tech",
-    "updated_time": "2026-07-21 15:19:41"
+    "updated_time": "2026-07-28 14:42:30"
 }
